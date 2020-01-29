@@ -16,6 +16,7 @@ const executeApp = () => {
         console.log(data);
     });
 };
+
 const logMousePos = () => {
     return setInterval(() => {
         const curPos = robot.getMousePos();
@@ -25,6 +26,7 @@ const logMousePos = () => {
         prevPos = curPos;
     }, 1000);
 };
+
 const waitFor = (time, cb) => {
     return new Promise((resolve, reject) => {
         setTimeout(async () => {
@@ -35,8 +37,8 @@ const waitFor = (time, cb) => {
 };
 
 const main = async () => {
-    logColor();
-    logMousePos();
+    const colorLogging = logColor();
+    const mousePosLogging = logMousePos();
     executeApp();
     await waitFor(30000, () => {
         robot.moveMouse(460, 520);
@@ -77,6 +79,8 @@ const main = async () => {
         robot.mouseToggle("down");
         robot.dragMouse(770, 800);
     });
+    clearInterval(colorLogging);
+    clearInterval(mousePosLogging);
 };
 
 main();
