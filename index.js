@@ -2,24 +2,29 @@ const robot = require("robotjs");
 const child = require("child_process").execFile;
 const executablePath = "D:\\Program Files\\Nox\\bin\\Nox.exe";
 const equal = require("deep-equal");
+let prevPos = { x: 0, y: 0 };
 
-// setInterval(() => {
-//     console.log(robot.getPixelColor(770, 600));
-// }, 1000);
+const logColor = () => {
+    return setInterval(() => {
+        console.log(robot.getPixelColor(770, 600));
+    }, 1000);
+};
 
-child(executablePath, (err, data) => {
-    console.log(err);
-    console.log(data);
-});
-
-// let temp;
-// while (true) {
-//     const cur = robot.getMousePos();
-//     if (!equal(temp, cur)) {
-//         console.log(cur);
-//     }
-//     temp = cur;
-// }
+const executeApp = () => {
+    child(executablePath, (err, data) => {
+        console.log(err);
+        console.log(data);
+    });
+};
+const logMousePos = () => {
+    return setInterval(() => {
+        const curPos = robot.getMousePos();
+        if (!equal(prevPos, curPos)) {
+            console.log(curPos);
+        }
+        prevPos = curPos;
+    }, 1000);
+};
 const waitFor = (time, cb) => {
     return new Promise((resolve, reject) => {
         setTimeout(async () => {
@@ -30,6 +35,9 @@ const waitFor = (time, cb) => {
 };
 
 const main = async () => {
+    logColor();
+    logMousePos();
+    executeApp();
     await waitFor(30000, () => {
         robot.moveMouse(460, 520);
         robot.mouseClick();
