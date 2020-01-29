@@ -29,8 +29,8 @@ const logMousePos = () => {
 
 const waitFor = (time, cb) => {
     return new Promise((resolve, reject) => {
-        setTimeout(async () => {
-            await cb();
+        setTimeout(() => {
+            cb();
             resolve();
         }, time);
     });
